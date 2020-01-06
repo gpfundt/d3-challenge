@@ -64,11 +64,13 @@ d3.csv("assets/data/data.csv").then(function(usdata, err) {
         .attr("cy", d => yLinearScale(d.poverty))
         .attr("r", "15");
       
-      circlesGroup.selectAll("#stateCircle")
+    var labels = circlesGroup.selectAll("text")
         .data(usdata)
         .enter()
-        .append("div")
+        .append("text")
         .classed("stateText", true)
-        .attr("r", d=>d.abbr);
+        .text(d=>d.abbr)
+        .attr("x", d => xLinearScale(d.healthcare) + 5)
+        .attr("y", d => yLinearScale(d.poverty));
 });
 
