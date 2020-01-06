@@ -17,6 +17,7 @@ var height = svgHeight - margin.top - margin.bottom;
 var svg = d3
   .select("#scatter")
   .append("svg")
+  .classed("chart", true)
   .attr("width", svgWidth)
   .attr("height", svgHeight);
 
@@ -54,28 +55,20 @@ d3.csv("assets/data/data.csv").then(function(usdata, err) {
     chartGroup.append("g")
         .call(yAxis);
 
-    var circlesGroup = chartGroup.selectAll("stateCircle")
+    var circlesGroup = chartGroup.selectAll("circle")
         .data(usdata)
         .enter()
         .append("circle")
+        .classed("stateCircle", true)
         .attr("cx", d => xLinearScale(d.healthcare))
         .attr("cy", d => yLinearScale(d.poverty))
-        .attr("r", "15")
-        .attr("fill", "pink");
-
-
-    var toolTip = d3.select("body").append("div")
-        .attr("class", ".d3-tip");
-
-  // Step 2: Add an onmouseover event to display a tooltip
-  // ========================================================
-  circlesGroup.on("mouseover", function(d, i) {
-    toolTip.style("display", "block");
-    toolTip.html(`<strong>${d.abbr}</strong>`);
-  })
-    // Step 3: Add an onmouseout event to make the tooltip invisible
-    .on("mouseout", function() {
-      toolTip.style("display", "none");
-    });
+        .attr("r", "15");
+      
+      circlesGroup.selectAll("#stateCircle")
+        .data(usdata)
+        .enter()
+        .append("div")
+        .classed("stateText", true)
+        .attr("r", d=>d.abbr);
 });
 
