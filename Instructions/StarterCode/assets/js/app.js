@@ -54,14 +54,28 @@ d3.csv("assets/data/data.csv").then(function(usdata, err) {
     chartGroup.append("g")
         .call(yAxis);
 
-    var circlesGroup = chartGroup.selectAll("circle")
+    var circlesGroup = chartGroup.selectAll("stateCircle")
         .data(usdata)
         .enter()
         .append("circle")
-        .html(d => `<strong>${d.abbr}</strong>`)
         .attr("cx", d => xLinearScale(d.healthcare))
         .attr("cy", d => yLinearScale(d.poverty))
         .attr("r", "15")
         .attr("fill", "pink");
+
+
+    var toolTip = d3.select("body").append("div")
+        .attr("class", ".d3-tip");
+
+  // Step 2: Add an onmouseover event to display a tooltip
+  // ========================================================
+  circlesGroup.on("mouseover", function(d, i) {
+    toolTip.style("display", "block");
+    toolTip.html(`<strong>${d.abbr}</strong>`);
+  })
+    // Step 3: Add an onmouseout event to make the tooltip invisible
+    .on("mouseout", function() {
+      toolTip.style("display", "none");
+    });
 });
 
