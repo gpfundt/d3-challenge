@@ -57,19 +57,16 @@ d3.csv("assets/data/data.csv").then(function(usdata, err) {
         .call(yAxis);
 
     chartGroup.append("text")
-      .attr("class", "x label")
-      .attr("text-anchor", "end")
-      .attr("x", width)
-      .attr("y", height - 6)
-      .text("Healthcare");
-
-      chartGroup.append("text")
-      .attr("class", "y label")
-      .attr("text-anchor", "end")
-      .attr("y", 4)
-      .attr("dy", ".75em")
+      .attr('class','aText')
       .attr("transform", "rotate(-90)")
+      .attr("y", 0 - margin.left + 40)
+      .attr("x", 0 - (height / 2))
       .text("Poverty");
+
+    chartGroup.append("text")
+        .attr('class','aText')
+        .attr("transform", `translate(${width / 2}, ${height + margin.top + 30})`)
+        .text("Healthcare");
 
     var circlesGroup = chartGroup.selectAll("circle")
         .data(usdata)
@@ -80,8 +77,6 @@ d3.csv("assets/data/data.csv").then(function(usdata, err) {
         .attr("cy", d => yLinearScale(d.poverty))
         .attr("r", "15")
         
-        
-        
         var circleLabels = chartGroup.selectAll(null)
         .data(usdata)
         .enter()
@@ -91,15 +86,4 @@ d3.csv("assets/data/data.csv").then(function(usdata, err) {
              return (`${d.abbr}`)})
         .attr("x", d => xLinearScale(d.healthcare))
         .attr("y", d => yLinearScale(d.poverty));
-      
-    // var labels = circlesGroup.selectAll("text")
-    //     .data(usdata)
-    //     .enter()
-    //     .append("text")
-    //     .classed("stateText", true)
-    //     .text(d=>d.abbr)
-    // .html(function(d) {
-    //   return (`<strong>${d.abbr}<strong>`)
-    //     .attr("x", d => xLinearScale(d.healthcare) + 5)
-    //     .attr("y", d => yLinearScale(d.poverty));
 });
